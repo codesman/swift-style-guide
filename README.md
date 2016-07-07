@@ -1,4 +1,4 @@
-A guide to our Swift style and conventions.
+My Personal guide to Swift style and conventions. Based on Github's with sprinklings of PSR-2 convention.
 
 This is an attempt to encourage patterns that accomplish the following goals (in
 rough priority order):
@@ -21,6 +21,11 @@ then open a pull request. :zap:
  * Don’t leave trailing whitespace.
    * Not even leading indentation on blank lines.
 
+#### Braces
+
+ * Strongly prefer opening braces and closing braces on new lines, ala PSR-2
+   * Some exceptions
+
 #### Prefer `let`-bindings over `var`-bindings wherever possible
 
 Use `let foo = …` over `var foo = …` wherever possible (and when in doubt). Only use `var` if you absolutely have to (i.e. you *know* that the value might change, e.g. when using the `weak` storage modifier).
@@ -38,16 +43,19 @@ Accordingly, whenever you see a `var` identifier being used, assume that it will
 When you have to meet certain criteria to continue execution, try to exit early. So, instead of this:
 
 ```swift
-if n.isNumber {
+if n.isNumber
+{
     // Use n here
-} else {
+} else
+{
     return
 }
 ```
 
 use this:
 ```swift
-guard n.isNumber else {
+guard n.isNumber else
+{
     return
 }
 // Use n here
@@ -62,9 +70,12 @@ If you have an identifier `foo` of type `FooType?` or `FooType!`, don't force-un
 Instead, prefer this:
 
 ```swift
-if let foo = foo {
+if let foo = foo
+{
     // Use unwrapped `foo` value in here
-} else {
+} 
+else
+{
     // If appropriate, handle the case where the optional is nil
 }
 ```
@@ -92,11 +103,13 @@ read-only subscripts.
 So, write these:
 
 ```swift
-var myGreatProperty: Int {
+var myGreatProperty: Int
+{
 	return 4
 }
 
-subscript(index: Int) -> T {
+subscript(index: Int) -> T
+{
     return objects[index]
 }
 ```
@@ -104,14 +117,18 @@ subscript(index: Int) -> T {
 … not these:
 
 ```swift
-var myGreatProperty: Int {
-	get {
+var myGreatProperty: Int
+{
+	get
+	{
 		return 4
 	}
 }
 
-subscript(index: Int) -> T {
-    get {
+subscript(index: Int) -> T
+{
+    get
+    {
         return objects[index]
     }
 }
@@ -132,7 +149,8 @@ private func doTheThings(things: [Thing]) {}
 However, definitions within those can leave access control implicit, where appropriate:
 
 ```swift
-internal struct TheFez {
+internal struct TheFez
+{
 	var owner: Person = Joshaber()
 }
 ```
@@ -167,10 +185,12 @@ let capitals: [Country: City] = [ Sweden: Stockholm ]
 When accessing properties or methods on `self`, leave the reference to `self` implicit by default:
 
 ```swift
-private class History {
+private class History
+{
 	var events: [Event]
 
-	func rewrite() {
+	func rewrite()
+	{
 		events = []
 	}
 }
@@ -179,13 +199,17 @@ private class History {
 Only include the explicit keyword when required by the language—for example, in a closure, or when parameter names conflict:
 
 ```swift
-extension History {
-	init(events: [Event]) {
+extension History
+{
+	init(events: [Event])
+	{
 		self.events = events
 	}
 
-	var whenVictorious: () -> () {
-		return {
+	var whenVictorious: () -> ()
+	{
+		return
+		{
 			self.rewrite()
 		}
 	}
@@ -203,26 +227,33 @@ Note that inheritance is (by itself) usually _not_ a good reason to use classes,
 For example, this class hierarchy:
 
 ```swift
-class Vehicle {
+class Vehicle
+{
     let numberOfWheels: Int
 
-    init(numberOfWheels: Int) {
+    init(numberOfWheels: Int)
+    {
         self.numberOfWheels = numberOfWheels
     }
 
-    func maximumTotalTirePressure(pressurePerWheel: Float) -> Float {
+    func maximumTotalTirePressure(pressurePerWheel: Float) -> Float
+    {
         return pressurePerWheel * Float(numberOfWheels)
     }
 }
 
-class Bicycle: Vehicle {
-    init() {
+class Bicycle: Vehicle
+{
+    init()
+    {
         super.init(numberOfWheels: 2)
     }
 }
 
-class Car: Vehicle {
-    init() {
+class Car: Vehicle
+{
+    init()
+    {
         super.init(numberOfWheels: 4)
     }
 }
@@ -235,15 +266,18 @@ protocol Vehicle {
     var numberOfWheels: Int { get }
 }
 
-func maximumTotalTirePressure(vehicle: Vehicle, pressurePerWheel: Float) -> Float {
+func maximumTotalTirePressure(vehicle: Vehicle, pressurePerWheel: Float) -> Float
+{
     return pressurePerWheel * Float(vehicle.numberOfWheels)
 }
 
-struct Bicycle: Vehicle {
+struct Bicycle: Vehicle
+{
     let numberOfWheels = 2
 }
 
-struct Car: Vehicle {
+struct Car: Vehicle
+{
     let numberOfWheels = 4
 }
 ```
@@ -262,9 +296,11 @@ _Rationale:_ Composition is usually preferable to inheritance, and opting _in_ t
 Methods of parameterized types can omit type parameters on the receiving type when they’re identical to the receiver’s. For example:
 
 ```swift
-struct Composite<T> {
+struct Composite<T>
+{
 	…
-	func compose(other: Composite<T>) -> Composite<T> {
+	func compose(other: Composite<T>) -> Composite<T>
+	{
 		return Composite<T>(self, other)
 	}
 }
@@ -273,9 +309,11 @@ struct Composite<T> {
 could be rendered as:
 
 ```swift
-struct Composite<T> {
+struct Composite<T>
+{
 	…
-	func compose(other: Composite) -> Composite {
+	func compose(other: Composite) -> Composite
+	{
 		return Composite(self, other)
 	}
 }
