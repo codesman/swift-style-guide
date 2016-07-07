@@ -1,7 +1,4 @@
-This guide is primarily intended to be _descriptive_, detailing the usage
-that Swift developers at GitHub have arrived at in cases of disagreement.
-Consider whether a proposed addition would make more sense in a fork used
-by your projects/organization instead.
+This is a fork of Github's document.  It is my own personal preference and I like it that way.  I will be consistent with it, unless I decide to change!
 
 If you want to suggest a change or addition that will help accomplish
 [the goals](README.md) of this style guide, please open a pull request that:
